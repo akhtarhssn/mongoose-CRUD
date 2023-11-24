@@ -17,11 +17,14 @@ const GetAllUsers = async () => {
 };
 
 const GetUser = async (userId: string) => {
-  const result = await User.aggregate([{ $match: { userId: userId } }]);
+  const result = await User.aggregate([
+    { $match: { userId: parseInt(userId) } },
+  ]);
   return result;
 };
 
 const DeleteUser = async (userId: string) => {
+  console.log(userId);
   const result = await User.updateOne({ userId }, { isDeleted: true });
 
   return result;

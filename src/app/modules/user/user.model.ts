@@ -16,7 +16,7 @@ const fullNameSchema = new Schema<IFullName>({
   },
   lastName: {
     type: String,
-    readonly: [true, "Last Name is required"],
+    required: [true, "Last Name is required"],
   },
 });
 
@@ -45,7 +45,7 @@ const UserSchema = new Schema<IUser, UserModel>({
   },
   username: {
     type: String,
-    required: true,
+    required: [true, "Username is required"],
     unique: true,
   },
   password: {

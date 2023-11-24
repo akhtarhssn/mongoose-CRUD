@@ -4,7 +4,7 @@ import { UserServices } from "./user.service";
 
 const createUser = async (req: Request, res: Response) => {
   try {
-    const { user: userData } = req.body;
+    const userData = req.body;
 
     const zodValidatedUser = IUserValidation.parse(userData);
 
