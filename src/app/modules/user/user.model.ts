@@ -66,6 +66,7 @@ const UserSchema = new Schema<IUser, UserModel>({
   },
   hobbies: {
     type: [String],
+    required: [true, "Hobbies is required"],
   },
   address: {
     type: addressSchema,
