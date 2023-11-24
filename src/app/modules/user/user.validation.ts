@@ -40,5 +40,3 @@ export const IUserValidation = z.object({
   // orders: z.array(orderSchema),
   isDeleted: z.boolean().default(false),
 });
-
-export default IUserValidation;
