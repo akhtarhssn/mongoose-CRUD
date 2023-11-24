@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { IUserValidation } from "./user.validation";
+import { IUserUpdateValidation, IUserValidation } from "./user.validation";
 import { UserServices } from "./user.service";
 
 const createUser = async (req: Request, res: Response) => {
@@ -39,8 +39,11 @@ const getAllUsers = async (req: Request, res: Response) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: (err as Error).message || "Something went wrong",
-      error: err,
+      message: "User not found",
+      error: {
+        code: 404,
+        description: "User not found!",
+      },
       // error: (err as Error).message,
       // error: err.issues[0].message,
     });
@@ -62,14 +65,44 @@ const getUser = async (req: Request, res: Response) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: (err as Error).message || "Something went wrong",
-      error: err,
+      message: "User not found",
+      error: {
+        code: 404,
+        description: "User not found!",
+      },
       // error: (err as Error).message,
       // error: err.issues[0].message,
     });
   }
 };
 
+// Update user information:
+// Get single user:
+const updateUser = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const updateData = req.body;
+
+    // Validate the update data using the update schema
+    const zodValidatedUpdate = IUserUpdateValidation.parse(updateData);
+
+    const result = await UserServices.UpdateUser(userId, zodValidatedUpdate);
+
+    res.status(200).json({
+      success: true,
+      message: "User data updated successfully",
+      data: result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: (err as Error).message || "Something went wrong",
+      error: err,
+    });
+  }
+};
+
+// Delete a user
 const deleteUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
@@ -97,4 +130,5 @@ export const UserController = {
   getAllUsers,
   getUser,
   deleteUser,
+  updateUser,
 };

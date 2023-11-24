@@ -1,4 +1,4 @@
-import { IUser } from "./user.interface";
+import { IUser, IUserUpdate } from "./user.interface";
 import { User } from "./user.model";
 
 const CreateUser = async (userData: IUser) => {
@@ -23,6 +23,11 @@ const GetUser = async (userId: string) => {
   return result;
 };
 
+const UpdateUser = async (userId: string, updateUser: IUserUpdate) => {
+  const result = await User.updateOne({ userId }, { $set: updateUser });
+  return result;
+};
+
 const DeleteUser = async (userId: string) => {
   console.log(userId);
   const result = await User.updateOne({ userId }, { isDeleted: true });
@@ -35,4 +40,5 @@ export const UserServices = {
   GetAllUsers,
   GetUser,
   DeleteUser,
+  UpdateUser,
 };

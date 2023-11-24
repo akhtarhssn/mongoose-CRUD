@@ -31,6 +31,25 @@ export interface IUser {
   isDeleted: boolean;
 }
 
+// This interface if for user information update:
+export interface IUserUpdate {
+  userId: number;
+  username?: string;
+  fullName?: {
+    firstName?: string;
+    lastName?: string;
+  };
+  age?: number;
+  email?: string;
+  isActive?: boolean;
+  hobbies?: string[];
+  address?: {
+    street?: string;
+    city?: string;
+    country?: string;
+  };
+}
+
 // Custom static methods:
 export interface UserModel extends Model<IUser> {
   // eslint-disable-next-line no-unused-vars
