@@ -15,12 +15,6 @@ const fullNameSchema = z.object({
     }),
 });
 
-// const orderSchema = z.object({
-//   productName: z.string(),
-//   price: z.number(),
-//   quantity: z.number(),
-// });
-
 const addressSchema = z.object({
   street: z.string(),
   city: z.string(),
@@ -28,15 +22,14 @@ const addressSchema = z.object({
 });
 
 export const IUserValidation = z.object({
-  userId: z.string(),
+  userId: z.number(),
   fullName: fullNameSchema,
-  userName: z.string(),
-  password: z.string(),
+  username: z.string(),
+  password: z.string().max(30),
   age: z.number(),
   email: z.string(),
-  isActive: z.enum(["Active", "Blocked"]).default("Active"),
+  isActive: z.boolean().default(true),
   hobbies: z.array(z.string()),
   address: addressSchema,
-  // orders: z.array(orderSchema),
   isDeleted: z.boolean().default(false),
 });

@@ -18,13 +18,13 @@ export interface IAddress {
 // }
 
 export interface IUser {
-  userId: string;
+  userId: number;
   fullName: IFullName;
-  userName: string;
+  username: string;
   password: string;
   age: number;
   email: string;
-  isActive: "Active" | "Blocked";
+  isActive: boolean;
   hobbies?: string[];
   address: IAddress;
   // orders: IOrder[];
@@ -33,5 +33,6 @@ export interface IUser {
 
 // Custom static methods:
 export interface UserModel extends Model<IUser> {
-  userExists(id: string): Promise<IUser | null>;
+  // eslint-disable-next-line no-unused-vars
+  userExists(id: number): Promise<IUser | null>;
 }

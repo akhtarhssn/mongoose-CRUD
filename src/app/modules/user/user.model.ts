@@ -6,6 +6,8 @@ import {
   IUser,
   UserModel,
 } from "./user.interface";
+import config from "../../config";
+import bcrypt from "bcrypt";
 
 const fullNameSchema = new Schema<IFullName>({
   firstName: {
@@ -32,7 +34,7 @@ const addressSchema = new Schema<IAddress>({
 
 const UserSchema = new Schema<IUser, UserModel>({
   userId: {
-    type: String,
+    type: Number,
     required: true,
     unique: true,
   },
@@ -41,7 +43,7 @@ const UserSchema = new Schema<IUser, UserModel>({
     required: [true, "Full Name is required"],
     trim: true,
   },
-  userName: {
+  username: {
     type: String,
     required: true,
     unique: true,
@@ -60,9 +62,7 @@ const UserSchema = new Schema<IUser, UserModel>({
     unique: true,
   },
   isActive: {
-    type: String,
-    enum: ["Active", "Blocked"],
-    default: "Active",
+    type: Boolean,
   },
   hobbies: {
     type: [String],
@@ -79,6 +79,23 @@ const UserSchema = new Schema<IUser, UserModel>({
     type: Boolean,
     default: false,
   },
+});
+
+// hashing password:
+UserSchema.pre("save", async function (next) {
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user = this;
+  // password hashing and saving password
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_round)
+  );
+  next();
+});
+
+UserSchema.post("save", function (doc, next) {
+  doc.password = "";
+  next();
 });
 
 UserSchema.statics.userExists = async (userId: string) => {

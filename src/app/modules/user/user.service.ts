@@ -3,7 +3,7 @@ import { User } from "./user.model";
 
 const CreateUser = async (userData: IUser) => {
   if (await User.userExists(userData.userId)) {
-    throw new Error(`User ${userData.userId} already exists`);
+    throw new Error("User with same id already exists");
   }
 
   const result = await User.create(userData);
