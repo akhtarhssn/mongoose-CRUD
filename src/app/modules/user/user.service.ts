@@ -12,24 +12,55 @@ const CreateUser = async (userData: IUser) => {
 };
 
 const GetAllUsers = async () => {
-  const result = await User.find();
+  const result = await User.aggregate([
+    {
+      $project: {
+        username: 1,
+        fullName: 1,
+        age: 1,
+        email: 1,
+        address: 1,
+      },
+    },
+  ]);
   return result;
 };
 
 const GetUser = async (userId: string) => {
+  // Check if user doesn't exists
+  const existingUser = await User.userExists(parseInt(userId));
+  if (!existingUser) {
+    throw new Error();
+  }
+
   const result = await User.aggregate([
     { $match: { userId: parseInt(userId) } },
+    {
+      $project: {
+        password: 0, // Excluding the password field
+      },
+    },
   ]);
   return result;
 };
 
 const UpdateUser = async (userId: string, updateUser: IUserUpdate) => {
+  // Check if user doesn't exists
+  const existingUser = await User.userExists(parseInt(userId));
+  if (!existingUser) {
+    throw new Error();
+  }
+
   const result = await User.updateOne({ userId }, { $set: updateUser });
   return result;
 };
 
 const DeleteUser = async (userId: string) => {
-  console.log(userId);
+  // Check if user doesn't exists
+  const existingUser = await User.userExists(parseInt(userId));
+  if (!existingUser) {
+    throw new Error();
+  }
   const result = await User.updateOne({ userId }, { isDeleted: true });
 
   return result;

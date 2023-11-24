@@ -20,8 +20,6 @@ const createUser = async (req: Request, res: Response) => {
       success: false,
       message: (err as Error).message || "Something went wrong",
       error: err,
-      // error: (err as Error).message,
-      // error: err.issues[0].message,
     });
   }
 };
@@ -44,8 +42,6 @@ const getAllUsers = async (req: Request, res: Response) => {
         code: 404,
         description: "User not found!",
       },
-      // error: (err as Error).message,
-      // error: err.issues[0].message,
     });
   }
 };
@@ -70,8 +66,6 @@ const getUser = async (req: Request, res: Response) => {
         code: 404,
         description: "User not found!",
       },
-      // error: (err as Error).message,
-      // error: err.issues[0].message,
     });
   }
 };
@@ -96,8 +90,11 @@ const updateUser = async (req: Request, res: Response) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: (err as Error).message || "Something went wrong",
-      error: err,
+      message: "User not found",
+      error: {
+        code: 404,
+        description: "User not found!",
+      },
     });
   }
 };
@@ -117,10 +114,11 @@ const deleteUser = async (req: Request, res: Response) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: (err as Error).message || "Something went wrong",
-      error: err,
-      // error: (err as Error).message,
-      // error: err.issues[0].message,
+      message: "User not found",
+      error: {
+        code: 404,
+        description: "User not found!",
+      },
     });
   }
 };
