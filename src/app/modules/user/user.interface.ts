@@ -11,11 +11,11 @@ export interface IAddress {
   country: string;
 }
 
-export interface IOrder {
-  productName: string;
-  price: number;
-  quantity: number;
-}
+// export interface IOrder {
+//   productName: string;
+//   price: number;
+//   quantity: number;
+// }
 
 export interface IUser {
   userId: string;
@@ -27,7 +27,7 @@ export interface IUser {
   isActive: "Active" | "Blocked";
   hobbies?: string[];
   address: IAddress;
-  orders: IOrder[];
+  // orders: IOrder[];
   isDeleted: boolean;
 }
 
