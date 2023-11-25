@@ -59,19 +59,18 @@ const getUser = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (err) {
-    res.status(500).json({
+    res.status(404).json({
       success: false,
       message: "User not found",
       error: {
         code: 404,
-        description: "User not found!",
+        description: (err as Error).message || "User not found!",
       },
     });
   }
 };
 
 // Update user information:
-// Get single user:
 const updateUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
@@ -79,6 +78,11 @@ const updateUser = async (req: Request, res: Response) => {
 
     // Validate the update data using the update schema
     const zodValidatedUpdate = IUserUpdateValidation.parse(updateData);
+
+    // making sure password field is not included in the data
+    if ("password" in updateData) {
+      throw new Error("Updating the password field is not allowed");
+    }
 
     const result = await UserServices.UpdateUser(userId, zodValidatedUpdate);
 
@@ -90,10 +94,10 @@ const updateUser = async (req: Request, res: Response) => {
   } catch (err) {
     res.status(500).json({
       success: false,
-      message: "User not found",
+      message: "Failed to update user data",
       error: {
         code: 404,
-        description: "User not found!",
+        description: (err as Error).message || "User not found!",
       },
     });
   }
