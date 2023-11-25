@@ -66,7 +66,7 @@ npm run start:dev
 
 - test: No tests are specified in the template. You can add your tests here. Run npm test.
 
-9. Notes
+## Notes
 
 - The project uses dotenv for environment variable management. Make sure to configure your .env file properly.
 
