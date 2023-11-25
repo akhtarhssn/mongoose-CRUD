@@ -52,7 +52,7 @@ npm run start:dev
 
 7. Access the application in your browser or through API testing tools like Postman. The default URL is http://localhost:5000.
 
-8. Available Scripts
+## Available Scripts
 
 - start:prod: Start the server in production mode using nodemon. Run npm run start:prod.
 
