@@ -20,35 +20,35 @@ Before you start, make sure you have the following installed on your machine:
 
 2. Navigate to the project directory:
 
-```bash
-cd assignment-2
-```
+   ```bash
+   cd assignment-2
+   ```
 
 3. Install dependencies:
 
-```bash
-npm install
-```
+   ```bash
+   npm install
+   ```
 
 4. Create a .env file in the project root and configure your environment variables. You can use the .env.example file as a template. Replace your-database-name and your-secret-key with your desired values.
 
-```bash
-PORT=3000
-MONGODB_URI=mongodb://localhost:27017/your-database-name
-JWT_SECRET=your-secret-key
-```
+   ```bash
+   PORT=3000
+   MONGODB_URI=mongodb://localhost:27017/your-database-name
+   JWT_SECRET=your-secret-key
+   ```
 
 5. Build the project:
 
-```bash
-npm run build
-```
+   ```bash
+   npm run build
+   ```
 
 6. Start the development server: This command will start the server using ts-node-dev, which allows automatic transpilation and restart on file changes.
 
-```bash
-npm run start:dev
-```
+   ```bash
+   npm run start:dev
+   ```
 
 7. Access the application in your browser or through API testing tools like Postman. The default URL is http://localhost:5000.
 
