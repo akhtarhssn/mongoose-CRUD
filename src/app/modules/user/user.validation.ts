@@ -37,7 +37,7 @@ export const IUserValidation = z.object({
   isActive: z.boolean().default(true),
   hobbies: z.array(z.string()),
   address: addressSchema,
-  orders: z.array(orderSchema),
+  orders: z.array(orderSchema).optional(),
   isDeleted: z.boolean().default(false),
 });
 
