@@ -174,7 +174,7 @@ const getAllOrders = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       message: "Orders retrieved successfully",
-      data: orders,
+      data: { orders },
     });
   } catch (err) {
     res.status(500).json({
@@ -182,7 +182,34 @@ const getAllOrders = async (req: Request, res: Response) => {
       message: "Failed to retrieve User orders",
       error: {
         code: 500,
-        description: (err as Error).message || "Internal Server Error",
+        description: (err as Error).message || "User not found",
+      },
+    });
+  }
+};
+
+// get order total price for a user
+const getTotalOrderPrice = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+
+    // Get total price of orders for the user
+    const totalPrice = await UserServices.GetTotalOrderPrice(parseInt(userId));
+
+    res.status(200).json({
+      success: true,
+      message: "Total price calculated successfully!",
+      data: {
+        totalPrice,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to calculate total price",
+      error: {
+        code: 500,
+        description: (err as Error).message || "User not found",
       },
     });
   }
@@ -196,4 +223,5 @@ export const UserController = {
   updateUser,
   addOrder,
   getAllOrders,
+  getTotalOrderPrice,
 };

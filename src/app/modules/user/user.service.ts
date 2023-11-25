@@ -93,6 +93,24 @@ const GetAllOrders = async (userId: number) => {
   return user.orders || [];
 };
 
+// get the order price total for a specific user
+const GetTotalOrderPrice = async (userId: number) => {
+  const user = await User.findOne({ userId });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  // Calculate total price of all orders
+  const totalPrice =
+    user.orders?.reduce(
+      (sum, order) => sum + order.price * order.quantity,
+      0
+    ) || 0;
+
+  return totalPrice;
+};
+
 export const UserServices = {
   CreateUser,
   GetAllUsers,
@@ -101,4 +119,5 @@ export const UserServices = {
   UpdateUser,
   AddOrder,
   GetAllOrders,
+  GetTotalOrderPrice,
 };
