@@ -11,11 +11,11 @@ export interface IAddress {
   country: string;
 }
 
-// export interface IOrder {
-//   productName: string;
-//   price: number;
-//   quantity: number;
-// }
+export interface IOrder {
+  productName: string;
+  price: number;
+  quantity: number;
+}
 
 export interface IUser {
   userId: number;
@@ -27,7 +27,7 @@ export interface IUser {
   isActive: boolean;
   hobbies?: string[];
   address: IAddress;
-  // orders: IOrder[];
+  orders: IOrder[];
   isDeleted: boolean;
 }
 
@@ -54,4 +54,6 @@ export interface IUserUpdate {
 export interface UserModel extends Model<IUser> {
   // eslint-disable-next-line no-unused-vars
   userExists(id: number): Promise<IUser | null>;
+  // eslint-disable-next-line no-unused-vars
+  addOrder(userId: number, order: IOrder): Promise<IUser | null>;
 }

@@ -21,6 +21,12 @@ const addressSchema = z.object({
   country: z.string(),
 });
 
+const orderSchema = z.object({
+  productName: z.string(),
+  price: z.number(),
+  quantity: z.number(),
+});
+
 export const IUserValidation = z.object({
   userId: z.number(),
   fullName: fullNameSchema,
@@ -31,6 +37,7 @@ export const IUserValidation = z.object({
   isActive: z.boolean().default(true),
   hobbies: z.array(z.string()),
   address: addressSchema,
+  orders: z.array(orderSchema),
   isDeleted: z.boolean().default(false),
 });
 
@@ -51,4 +58,10 @@ export const IUserUpdateValidation = z.object({
     city: z.string(),
     country: z.string(),
   }),
+});
+
+export const IOrderValidation = z.object({
+  productName: z.string(),
+  price: z.number(),
+  quantity: z.number(),
 });

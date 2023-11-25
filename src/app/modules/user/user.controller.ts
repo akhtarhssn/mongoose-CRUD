@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
-import { IUserUpdateValidation, IUserValidation } from "./user.validation";
+import {
+  IOrderValidation,
+  IUserUpdateValidation,
+  IUserValidation,
+} from "./user.validation";
 import { UserServices } from "./user.service";
 
 const createUser = async (req: Request, res: Response) => {
@@ -127,10 +131,69 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
+// Add Order to User
+const addOrder = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const orderData = req.body;
+
+    // Validate the order data
+    const zodValidatedOrder = IOrderValidation.parse(orderData);
+
+    // Add order to user
+    const result = await UserServices.AddOrder(
+      parseInt(userId),
+      zodValidatedOrder
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Order added successfully",
+      data: result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to add order",
+      error: {
+        code: 500,
+        description: (err as Error).message || "Internal Server Error",
+      },
+    });
+  }
+};
+
+// Get all orders for a user
+const getAllOrders = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+
+    // Get all orders for the user
+    const orders = await UserServices.GetAllOrders(parseInt(userId));
+
+    res.status(200).json({
+      success: true,
+      message: "Orders retrieved successfully",
+      data: orders,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to retrieve User orders",
+      error: {
+        code: 500,
+        description: (err as Error).message || "Internal Server Error",
+      },
+    });
+  }
+};
+
 export const UserController = {
   createUser,
   getAllUsers,
   getUser,
   deleteUser,
   updateUser,
+  addOrder,
+  getAllOrders,
 };

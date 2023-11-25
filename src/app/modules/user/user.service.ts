@@ -1,4 +1,4 @@
-import { IUser, IUserUpdate } from "./user.interface";
+import { IOrder, IUser, IUserUpdate } from "./user.interface";
 import { User } from "./user.model";
 
 const CreateUser = async (userData: IUser) => {
@@ -66,10 +66,39 @@ const DeleteUser = async (userId: string) => {
   return result;
 };
 
+const AddOrder = async (userId: number, order: IOrder) => {
+  const user = await User.findOne({ userId });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  if (!user.orders) {
+    user.orders = [order];
+  } else {
+    user.orders.push(order);
+  }
+
+  await user.save();
+  return user.orders;
+};
+
+const GetAllOrders = async (userId: number) => {
+  const user = await User.findOne({ userId });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  return user.orders || [];
+};
+
 export const UserServices = {
   CreateUser,
   GetAllUsers,
   GetUser,
   DeleteUser,
   UpdateUser,
+  AddOrder,
+  GetAllOrders,
 };

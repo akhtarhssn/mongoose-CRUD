@@ -2,6 +2,7 @@ import { Schema, model } from "mongoose";
 import {
   IAddress,
   IFullName,
+  IOrder,
   // IOrder,
   IUser,
   UserModel,
@@ -20,11 +21,11 @@ const fullNameSchema = new Schema<IFullName>({
   },
 });
 
-// const orderSchema = new Schema<IOrder>({
-//   productName: { type: String, required: true },
-//   price: { type: Number, required: true },
-//   quantity: { type: Number, required: true },
-// });
+const orderSchema = new Schema<IOrder>({
+  productName: { type: String, required: true },
+  price: { type: Number, required: true },
+  quantity: { type: Number, required: true },
+});
 
 const addressSchema = new Schema<IAddress>({
   street: { type: String, required: [true, "Street address is required"] },
@@ -72,9 +73,9 @@ const UserSchema = new Schema<IUser, UserModel>({
     type: addressSchema,
     required: [true, "Address is required"],
   },
-  // orders: {
-  //   type: [orderSchema],
-  // },
+  orders: {
+    type: [orderSchema],
+  },
   isDeleted: {
     type: Boolean,
     default: false,
